@@ -11,7 +11,7 @@ function Todo() {
 
   return (
     <div>
-      <h1>{todo.text}</h1>
+      <h1>{todo.name}</h1>
       <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <button onClick={() => completeTodo(todo)}>Complete</button>
       <Link to={`/edit/${id}`}>

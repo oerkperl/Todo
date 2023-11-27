@@ -8,15 +8,15 @@ export const TodoProvider = ({ children }) => {
   const { id } = useParams();
   const [todos, setTodos] = useState([]);
 
-  const addTodo = (text) => {
-    const newTodos = [...todos, { text, isCompleted: false, id: uid() }];
+  const addTodo = (task) => {
+    const newTodos = [...todos, task];
     setTodos(newTodos);
   };
 
-  const editTodo = (text, id) => {
+  const editTodo = (task, id) => {
     const editedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        todo.text = text;
+        todo = task;
       }
       return todo;
     });
