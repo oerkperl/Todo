@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
 
 function Todo() {
@@ -14,6 +14,9 @@ function Todo() {
       <h1>{todo.text}</h1>
       <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <button onClick={() => completeTodo(todo)}>Complete</button>
+      <Link to={`/edit/${id}`}>
+      <button>Edit</button>
+      </Link>
     </div>
   );
 }
