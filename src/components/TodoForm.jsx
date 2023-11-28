@@ -4,8 +4,19 @@ import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate, useParams } from "react-router-dom";
-import { Center, BlueButton, LargInput, StyledDatePicker, Wrapper,RoundButton, ButtonContainer } from "./Styled";
-
+import {
+  Center,
+  BlueButton,
+  LargInput,
+  StyledDatePicker,
+  Wrapper,
+  RoundButton,
+  ButtonContainer,
+  Row,
+  Col, 
+  SmallInput
+} from "./Styled";
+import TimePicker from 'react-time-picker';
 
 function TodoForm() {
 
@@ -13,17 +24,17 @@ function TodoForm() {
   const [tags, setTags] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [isEditing, setIsEditing] = useState(false)
-  const [selectedPriority, setSelectedPriority] = useState(null);
-  const [selectedcomplexity, setSelectedComplexity] = useState(null);
-  const [subTask, setSubTask]= useState(['sub1', 'subs'])
-  const navigate = useNavigate()
+  const [selectedPriority, setSelectedPriority] = useState(1);
+  const [selectedcomplexity, setSelectedComplexity] = useState(1);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isSubTaskCompleted, setIsSubTaskCompleted] = useState(false);
+  const [subTasks, setSubTasks] = useState([]);
+  const [subTask, setSubTask] = useState('')
+  const navigate = useNavigate();
   const { id } = useParams();
   const { editTodo, getTodo, addTodo } = useContext(TodoContext);
-  const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const complexity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
- 
+  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
@@ -31,7 +42,6 @@ function TodoForm() {
         try {
           const todo = await getTodo(id);
           if (todo) {
-            //console.log(todo)
             initializeEdit(todo);
           }
         } catch (error) {
@@ -47,8 +57,10 @@ function TodoForm() {
     setName(todo.name);
     setSelectedComplexity(todo.complexity);
     setSelectedPriority(todo.priority);
-    setSelectedDate(todo.date)
-    setTags(todo.tags)
+    setSelectedDate(todo.date);
+    setTags(todo.tags);
+    setIsCompleted(todo.isCompleted);
+    setSubTasks(todo.subTasks);
   }
 
   const handleSubmit = (e) => {
@@ -56,14 +68,13 @@ function TodoForm() {
     if (!name) return;
     const task = getFormData()
     if (isEditing) {
-      editTodo(task, id)
+      //console.log(task)
+      editTodo(task)
       setIsEditing(false)
-    } else {
-     
-      
+    } else {  
+      //console.log(task)
       addTodo(task);
     }
-    
     clearForm();
     navigate('/')
   };
@@ -76,7 +87,9 @@ function TodoForm() {
       complexity: selectedcomplexity,
       date: selectedDate,
       tags: tags,
-      id:taskId,
+      id: taskId,
+      isCompleted: isCompleted,
+      subTasks:subTasks,
     }
     return data;
   }
@@ -89,15 +102,18 @@ function TodoForm() {
     setTags('')
   }
 
-  const handlePriority = (priority) => {
-    setSelectedPriority(priority)
-    console.log(`Priority: ${priority} `);
+  const addSubtask = (task) => {
+    if (!task) return;
+    const newSubTask = { name: task, id: uid(), isSubTaskCompleted:isSubTaskCompleted }
+    setSubTasks((prev) => [...prev, newSubTask])   
+    setSubTask("");
   };
 
-  const handleComplexity = (complexity) => {
-    setSelectedComplexity(complexity)
-    console.log(`Complexity: ${complexity}`);
-  };
+  const deleteSubtask = (id) => {
+    setSubTasks((prev) => prev.filter((task) => 
+      task.id !== id
+    ))
+  }
 
 
   return (
@@ -116,43 +132,71 @@ function TodoForm() {
       />
       <h4>Select Priority</h4>
       <ButtonContainer>
-      {priority.map((option) => (
+      {options.map((option) => (
         <RoundButton
           key={option}
-          onClick={() => handlePriority(option)}
-          type="button"
-          
+          onClick={() =>  setSelectedPriority(option)}
+          $isSelected={selectedPriority === option}
+          type="button"   
         >
           {option}</RoundButton>
       ))}
     </ButtonContainer>
         <h4>Select Complexity</h4>
         <ButtonContainer>
-      {complexity.map((option) => (
+      {options.map((option) => (
         <RoundButton
           key={option}
-          onClick={() => handleComplexity(option)}
-          type="button"
+          onClick={() =>  setSelectedComplexity(option)}
+          $isSelected={selectedcomplexity === option}
+          type="button"   
         >
           {option}</RoundButton>
       ))}
-    </ButtonContainer>
-      <h4>Select a Date</h4>
-      <StyledDatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        dateFormat="dd/MM/yyyy"
-        placeholderText="dd.mm.yyyy"
-      />
-      <h4>Add Checklist for subtask</h4>
-      <LargInput
+        </ButtonContainer>
+        <Row>
+          
+        <Col $width='50%'>
+            <h4>Select a Date</h4>
+            <StyledDatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd.mm.yyyy"
+            />
+          </Col>
+          <Col $width='50%'>
+            <h4>Select a Time</h4>
+            <StyledDatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd.mm.yyyy"
+            />
+          </Col>
+          
+        </Row>
+      
+        <h4>Add Checklist for subtask</h4>
+        <Row>
+        
+          <Col $width='100%'>
+          <SmallInput
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        />
+        value={subTask}
+        onChange={(e) => setSubTask(e.target.value)}
+          />
+          </Col>
+          <Col $width='10%'>
+            <RoundButton type="button" onClickCapture={() => addSubtask(subTask)}>+</RoundButton>
+          </Col>
+        </Row>
+      
         <ul>
-        {subTask.map((subTask, index) => (
-          <li key={index}>{ subTask}</li>
+        {subTasks.map((subTask) => (
+          <li key={subTask.id}>{subTask.name}
+            <RoundButton onClick={()=>deleteSubtask(subTask.id)}>X</RoundButton>
+          </li>
           ))}
         </ul>
         <h4>Add Tags</h4>

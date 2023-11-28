@@ -13,9 +13,9 @@ export const TodoProvider = ({ children }) => {
     setTodos(newTodos);
   };
 
-  const editTodo = (task, id) => {
+  const editTodo = (task) => {
     const editedTodos = todos.map((todo) => {
-      if (todo.id === id) {
+      if (todo.id === task.id) {
         todo = task;
       }
       return todo;
