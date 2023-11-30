@@ -10,21 +10,24 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <Wrapper>
+        <Router>
+          {/* <nav>
+            <Link to="/">
+              <i className="fa-solid fa-house-chimney"></i>
+            </Link>
+          </nav> */}
 
-      <Router>
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
-
-        <TodoProvider>
-          <Routes>
-            <Route exact path="/" element={<Tasks />} />
-            <Route exact path="/add" element={<AddEditTask />} />
-            <Route exact path="/edit/:id" element={<AddEditTask />} />
-            <Route path="/task/:id" element={<TodoDetail />} />
-          </Routes>
-        </TodoProvider>
-      </Router>
+          <TodoProvider>
+            <Routes>
+              <Route exact path="/" element={<Tasks />} />
+              <Route exact path="/add" element={<AddEditTask />} />
+              <Route exact path="/edit/:id" element={<AddEditTask />} />
+              <Route path="/task/:id" element={<TodoDetail />} />
+            </Routes>
+          </TodoProvider>
+        </Router>
+      </Wrapper>
     </>
   );
 }

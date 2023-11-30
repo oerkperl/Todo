@@ -1,25 +1,24 @@
-import { createContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import { uid } from "uid";
+import { createContext, useState, useEffect } from "react";
 
 export const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-  const { id } = useParams();
   const [todos, setTodos] = useState([]);
 
   const addTodo = (task) => {
     const newTodos = [...todos, task];
+    localStorage.setItem("todos", JSON.stringify(newTodos));
     setTodos(newTodos);
   };
 
-  const editTodo = (task) => {
+  const updateTodo = (task) => {
     const editedTodos = todos.map((todo) => {
       if (todo.id === task.id) {
         todo = task;
       }
       return todo;
     });
+    localStorage.setItem("todos", JSON.stringify(editedTodos));
     setTodos(editedTodos);
   };
 
@@ -32,15 +31,45 @@ export const TodoProvider = ({ children }) => {
   };
 
   const removeTodo = (todo) => {
-    setTodos((todos) => todos.filter((t) => t.id !== todo.id));
+    const filtered = todos.filter((t) => t.id !== todo.id);
+    localStorage.setItem("todos", JSON.stringify(filtered));
+    setTodos(filtered);
   };
 
   const getTodo = (id) => {
     return todos.find((todo) => todo.id === id);
   };
+
+  const completeSubTask = (todo, id) => {
+    todo.subTasks.map((subTask) => {
+      if (subTask.id === id) {
+        subTask.isSubTaskCompleted = !subTask.isSubTaskCompleted;
+      }
+    });
+    updateTodo(todo);
+  };
+
+  useEffect(() => {
+    const todosString = localStorage.getItem("todos");
+    if (todosString) {
+      const todosArray = JSON.parse(todosString);
+      setTodos(todosArray);
+      //setSortedTodos([...todosArray]);
+    }
+  }, []);
+
   return (
     <TodoContext.Provider
-      value={{ todos, addTodo, completeTodo, removeTodo, getTodo, editTodo }}
+      value={{
+        todos,
+        addTodo,
+        completeTodo,
+        removeTodo,
+        getTodo,
+        updateTodo,
+        completeSubTask,
+        setTodos,
+      }}
     >
       {children}
     </TodoContext.Provider>
