@@ -30,17 +30,16 @@ function TodoForm() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [subTasks, setSubTasks] = useState([]);
   const [subTask, setSubTask] = useState("");
-  const navigate = useNavigate();
   const { id } = useParams();
   const { updateTodo, getTodo, addTodo } = useContext(TodoContext);
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
   const [selectedHour, setSelectedHour] = useState(1);
   const [selectedMinute, setSelectedMinute] = useState(0);
-
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minutes = ["00", "10", "20", "30", "40", "50", "60"];
   const periods = ["AM", "PM"];
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +61,6 @@ function TodoForm() {
 
   const setLevel = (number) => {
     let level;
-
     if (number > 0 && number < 4) {
       level = "Low";
     } else if (number >= 4 && number < 7) {
@@ -70,9 +68,8 @@ function TodoForm() {
     } else if (number >= 7) {
       level = "High";
     } else {
-      level = "Unknown"; // or handle other cases as needed
+      level = "Unknown";
     }
-
     return level;
   };
 
@@ -80,7 +77,7 @@ function TodoForm() {
     setName(todo.name);
     setSelectedComplexity(todo.complexity);
     setSelectedPriority(todo.priority);
-    setSelectedDate(todo.date);
+    //setSelectedDate(todo.date);
     setTags(todo.tags);
     setIsCompleted(todo.isCompleted);
     setSubTasks(todo.subTasks);
@@ -94,22 +91,19 @@ function TodoForm() {
     if (!name) return;
     const task = getFormData();
     if (isEditing) {
-      //console.log(task);
+      console.log(task);
       updateTodo(task);
       setIsEditing(false);
     } else {
-      //console.log(task);
+      console.log(task);
       addTodo(task);
     }
     clearForm();
-    //navigate("/");
     navigate(-1) || navigate("/");
   };
 
   const getFormData = () => {
     const taskId = isEditing ? id : uid();
-    const time = selectedHour + ":" + selectedMinute + selectedPeriod;
-    //console.log(time);
     const data = {
       name: name,
       priority: selectedPriority,
@@ -207,7 +201,7 @@ function TodoForm() {
           <h4>Select a Date</h4>
           <StyledDatePicker
             selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
+            onChange={(e) => setSelectedDate(e)}
             dateFormat="dd/MM/yyyy"
             placeholderText="dd.mm.yyyy"
           />

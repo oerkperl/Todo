@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
 import DatePicker from "react-datepicker";
+import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
 
 export const GlobalStyle = createGlobalStyle`
@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 export const Wrapper = styled.div`
   width: 450px;
   margin: 1rem auto;
-  //border: 1px solid blue;
+
   background-color: rgba(135, 206, 250, 0.06);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 1rem;
@@ -30,11 +30,9 @@ export const StyledForm = styled.form`
 `;
 export const Row = styled.div`
   display: flex;
-  //border: 1px solid blue;
 `;
 
 export const Col = styled.div`
-  //border: 1px solid red;
   box-sizing: border-box;
   min-height: 20px;
   width: ${(props) => props.$width};
@@ -106,7 +104,6 @@ export const StyledDatePicker = styled(DatePicker)`
 export const RowContainer = styled.div`
   display: flex;
   gap: 10px;
-  // border: 1px solid grey;
 `;
 export const Subtask = styled.li`
   display: flex;
@@ -140,8 +137,6 @@ export const Dropdown = styled.select`
 `;
 
 export const TodoCard = styled.div`
-  //min-height: 150px;
-  //width: 100%;
   background-color: #fff;
   border-radius: 10px;
   padding: 0.5rem;
@@ -155,15 +150,19 @@ const Card = styled.div`
   gap: 10px;
 `;
 
-export const CardButtons = styled.div`
+export const CardHeader = styled.div`
   display: flex;
-  gap: 10px;
-  position: absolute;
-  margin: 0.5rem 0.5rem 0 0;
-  right: 0;
+  gap: 0.5rem;
+  align-items: center;
   top: ${(props) => props.$top};
-  //border: 1px solid blue;
-  z-index: 10;
+
+  h4,
+  form {
+    margin-right: auto;
+  }
+  h4 {
+    cursor: pointer;
+  }
 
   button {
     border: none;
@@ -181,7 +180,6 @@ export const CardButtons = styled.div`
 `;
 
 export const CardRow = styled(Card)`
-  //border: 1px solid blue;
   width: 100%;
   h4 {
     margin-right: auto;
@@ -189,10 +187,10 @@ export const CardRow = styled(Card)`
   }
 
   i {
-    //border: 2px solid orange;
     width: 10px;
     color: #333;
   }
+
   label {
     color: #555;
   }

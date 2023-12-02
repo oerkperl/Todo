@@ -22,12 +22,20 @@ export const TodoProvider = ({ children }) => {
     setTodos(editedTodos);
   };
 
-  const completeTodo = (todo) => {
-    setTodos((todos) =>
-      todos.map((t) =>
-        t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
-      )
+  const UpdateName = (todo, newName) => {
+    const filtered = todos.map((t) =>
+      t.id === todo.id ? { ...t, name: newName } : t
     );
+    localStorage.setItem("todos", JSON.stringify(filtered));
+    setTodos(filtered);
+  };
+
+  const completeTodo = (todo) => {
+    const filtered = todos.map((t) =>
+      t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
+    );
+    localStorage.setItem("todos", JSON.stringify(filtered));
+    setTodos(filtered);
   };
 
   const removeTodo = (todo) => {
@@ -49,12 +57,15 @@ export const TodoProvider = ({ children }) => {
     updateTodo(todo);
   };
 
+  const getTodos = () => {
+    return [...todos];
+  };
+
   useEffect(() => {
     const todosString = localStorage.getItem("todos");
     if (todosString) {
       const todosArray = JSON.parse(todosString);
       setTodos(todosArray);
-      //setSortedTodos([...todosArray]);
     }
   }, []);
 
@@ -68,7 +79,8 @@ export const TodoProvider = ({ children }) => {
         getTodo,
         updateTodo,
         completeSubTask,
-        setTodos,
+        UpdateName,
+        getTodos,
       }}
     >
       {children}

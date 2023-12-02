@@ -1,38 +1,51 @@
-import { useContext, useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import Todo from "../components/Todo";
+import { useState } from "react";
+import { uid } from "uid";
+import { useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
 import {
-  TodoCard,
-  CardRow,
   Subtask,
   BlueButton,
-  CardButtons,
-  LevelIcon,
   Row,
   RoundButton,
   Col,
   StyledLink,
+  RowContainer,
+  StyledInput,
 } from "../components/Styled";
 
-function Todo() {
+function Task() {
   const { id } = useParams();
-  const { completeTodo, getTodo, removeTodo, completeSubTask } =
+  const { getTodo, removeTodo, completeSubTask, updateTodo } =
     useContext(TodoContext);
 
   const todo = getTodo(id);
   const navigate = useNavigate();
+  const [subTask, setSubTask] = useState("");
 
   const handleRemove = () => {
     removeTodo(todo);
     navigate("/");
   };
 
-  useEffect(() => {}, [todo.isSubTaskCompleted]);
+  const addSubtask = (task) => {
+    if (!task) return;
+    const newSubTask = {
+      name: task,
+      id: uid(),
+      isSubTaskCompleted: false,
+    };
+    const newSubTasks = [...todo.subTasks, newSubTask];
+    const updatedTodo = { ...todo, subTasks: newSubTasks };
+    updateTodo(updatedTodo);
+    setSubTask("");
+  };
 
   if (!todo) return <div>No todo found</div>;
 
   return (
-    <div style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}>
+    <div>
       <Row style={{ alignItems: "center" }}>
         <Col $width="33%">
           <StyledLink to={"/"}>
@@ -45,43 +58,9 @@ function Todo() {
           <h3>Task Detail</h3>
         </Col>
       </Row>
-      <TodoCard>
-        <CardButtons $top="0">
-          <Link to={`/edit/${todo.id}`}>
-            <button>
-              <i className="fa-solid fa-pen"></i>
-            </button>
-          </Link>
-          <button onClick={() => completeTodo(todo)}>
-            <i className="fa-solid fa-check"></i>
-          </button>
-        </CardButtons>
-        <CardButtons $top="50%"></CardButtons>
 
-        <CardRow>
-          <LevelIcon $priority={todo.priorityLevel} />
-          <h4>{todo.name}</h4>
-        </CardRow>
-        <CardRow>
-          <i className="fa-regular fa-calendar"></i>
-          <label>Due Date:</label>
-        </CardRow>
-        <CardRow>
-          <i className="fa-solid fa-arrow-up-long"></i>
-          <label>Priority:</label>
-          {`${todo.priorityLevel} ( ${todo.priority}/10)`}
-        </CardRow>
-        <CardRow>
-          <i className="fa-solid fa-arrows-up-down-left-right"></i>
-          <label>Complexity:</label>
-          {`${todo.complexityLevel} ( ${todo.complexity}/10)`}
-        </CardRow>
-        <CardRow>
-          <i className="fa-solid fa-tags"></i>
-          <label>Tags:</label>
-          {todo.tags}
-        </CardRow>
-      </TodoCard>
+      <Todo todo={todo} />
+
       {todo.subTasks.length > 0 && (
         <div>
           <h4 style={{ marginTop: ".5rem" }}>Checklist for subtask</h4>
@@ -107,6 +86,19 @@ function Todo() {
           </ol>
         </div>
       )}
+
+      <RowContainer style={{ marginTop: ".5rem" }}>
+        <StyledInput
+          type="text"
+          placeholder="Add Subtask..."
+          value={subTask}
+          onChange={(e) => setSubTask(e.target.value)}
+          $width="90%"
+        />
+        <RoundButton type="button" onClickCapture={() => addSubtask(subTask)}>
+          <i className="fa-solid fa-check"></i>
+        </RoundButton>
+      </RowContainer>
       <BlueButton $backgroundColor="lightpink" onClick={handleRemove}>
         <i className="fa-solid fa-trash-can"></i> Delete Task
       </BlueButton>
@@ -114,4 +106,4 @@ function Todo() {
   );
 }
 
-export default Todo;
+export default Task;

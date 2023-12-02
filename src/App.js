@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import Tasks from "./pages/Tasks";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TodoDetail from "./pages/Task";
 import { TodoProvider } from "./contexts/todoContext";
 import { AddEditTask } from "./pages/AddEditTask";
@@ -12,12 +12,6 @@ function App() {
       <GlobalStyle />
       <Wrapper>
         <Router>
-          {/* <nav>
-            <Link to="/">
-              <i className="fa-solid fa-house-chimney"></i>
-            </Link>
-          </nav> */}
-
           <TodoProvider>
             <Routes>
               <Route exact path="/" element={<Tasks />} />

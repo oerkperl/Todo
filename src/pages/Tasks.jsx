@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
 import Todo from "../components/Todo";
+import React, { useState, useEffect } from "react";
 import { useContext } from "react";
-
 import { TodoContext } from "../contexts/todoContext";
 import { Link } from "react-router-dom";
 import {
@@ -15,47 +14,47 @@ import {
 } from "../components/Styled";
 
 const Todos = () => {
-  const { todos, setTodos } = useContext(TodoContext);
+  const { todos, getTodos } = useContext(TodoContext);
   const noTask = todos.length === 0;
   const [sortOrder, setSortOrder] = useState("Default");
   const [sortCondition, setSortCondition] = useState("priority");
   const [searchValue, setSearchValue] = useState("");
+  const [filterBy, setFilterBy] = useState("name");
   const conditions = ["priority", "complexity"];
   const orders = ["Default", "Ascending", "Descending"];
+  const filters = ["name", "tags"];
+
   const [sortedTodos, setSortedTodos] = useState([...todos]);
 
-  const sortTodos = () => {
-    if (sortOrder === "Ascending") {
-      todos.sort((a, b) => a.sortCondition - b.sortCondition);
-    }
-
-    if (sortOrder === "Descending") {
-      todos.sort((a, b) => b.sortCondition - a.sortCondition);
-    }
-    return todos;
-  };
-
-  useEffect(() => {
+  const sort = (arr, sortBy) => {
     if (sortOrder === "Default") {
       setSortedTodos([...todos]);
     } else {
-      if (sortCondition === "priority" && sortOrder === "Ascending") {
-        sortedTodos.sort((a, b) => a.priority - b.priority);
-      }
-      if (sortCondition === "priority" && sortOrder === "Descending") {
-        sortedTodos.sort((a, b) => b.priority - a.priority);
-      }
-
-      if (sortCondition === "complexity" && sortOrder === "Ascending") {
-        sortedTodos.sort((a, b) => a.complexity - b.complexity);
-      }
-      if (sortCondition === "complexity" && sortOrder === "Descending") {
-        sortedTodos.sort((a, b) => b.complexity - a.complexity);
+      if (sortBy === sortCondition && sortOrder === "Ascending") {
+        arr.sort((a, b) => a[sortBy] - b[sortBy]);
+      } else {
+        arr.sort((a, b) => b[sortBy] - a[sortBy]);
       }
     }
+    setSortedTodos(arr);
+    return arr;
+  };
 
-    setSortedTodos((previous) => [...previous]);
-  }, [sortOrder, sortCondition]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedTodos = await getTodos();
+        if (fetchedTodos) {
+          const sorted = sort([...fetchedTodos], sortCondition);
+          setSortedTodos(sorted);
+        }
+      } catch (error) {
+        console.error("Error fetching todo:", error);
+      }
+    };
+
+    fetchData();
+  }, [getTodos, sortOrder, sortCondition]);
 
   return (
     <>
@@ -89,7 +88,7 @@ const Todos = () => {
                 <Dropdown
                   value={sortCondition}
                   onChange={(e) => setSortCondition(e.target.value)}
-                  $width="95%"
+                  $width="90%"
                 >
                   {conditions.map((condition) => (
                     <option key={condition} value={condition}>
@@ -98,12 +97,13 @@ const Todos = () => {
                   ))}
                 </Dropdown>
               </Col>
+
               <Col $width="50%">
                 <h4>Order</h4>
                 <Dropdown
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
-                  $width="100%"
+                  $width="90%"
                 >
                   {orders.map((order) => (
                     <option key={order} value={order}>
@@ -112,10 +112,25 @@ const Todos = () => {
                   ))}
                 </Dropdown>
               </Col>
+
+              <Col $width="50%">
+                <h4>Filter by</h4>
+                <Dropdown
+                  value={filterBy}
+                  onChange={(e) => setFilterBy(e.target.value)}
+                  $width="100%"
+                >
+                  {filters.map((filter) => (
+                    <option key={filter} value={filter}>
+                      {filter}
+                    </option>
+                  ))}
+                </Dropdown>
+              </Col>
             </Row>
           </div>
-          {todos
-            .filter((todo) => todo.name.includes(searchValue))
+          {sortedTodos
+            .filter((todo) => todo[filterBy].includes(searchValue))
             .map((todo) => (
               <Todo key={todo.id} todo={todo} />
             ))}
