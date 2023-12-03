@@ -35,11 +35,26 @@ function TodoForm() {
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
   const [selectedHour, setSelectedHour] = useState(1);
   const [selectedMinute, setSelectedMinute] = useState(0);
+
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minutes = ["00", "10", "20", "30", "40", "50", "60"];
   const periods = ["AM", "PM"];
   const navigate = useNavigate();
+
+  const setLevel = (number) => {
+    let level;
+    if (number > 0 && number < 4) {
+      level = "Low";
+    } else if (number >= 4 && number < 7) {
+      level = "Moderate";
+    } else if (number >= 7) {
+      level = "High";
+    } else {
+      level = "Unknown";
+    }
+    return level;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,25 +74,10 @@ function TodoForm() {
     fetchData();
   }, [id, getTodo]);
 
-  const setLevel = (number) => {
-    let level;
-    if (number > 0 && number < 4) {
-      level = "Low";
-    } else if (number >= 4 && number < 7) {
-      level = "Moderate";
-    } else if (number >= 7) {
-      level = "High";
-    } else {
-      level = "Unknown";
-    }
-    return level;
-  };
-
   const initializeEdit = (todo) => {
     setName(todo.name);
     setSelectedComplexity(todo.complexity);
     setSelectedPriority(todo.priority);
-    //setSelectedDate(todo.date);
     setTags(todo.tags);
     setIsCompleted(todo.isCompleted);
     setSubTasks(todo.subTasks);
@@ -86,16 +86,28 @@ function TodoForm() {
     setSelectedPeriod(todo.period);
   };
 
+  const formatDate = (d) => {
+    if (d === null || d === undefined) {
+      return getTodo(id)?.date;
+    } else {
+      const yyyy = d?.getFullYear();
+      let mm = d?.getMonth() + 1;
+      let dd = d?.getDate();
+      if (dd < 10) dd = "0" + dd;
+      if (mm < 10) mm = "0" + mm;
+      const formatted = dd + "/" + mm + "/" + yyyy;
+      return formatted;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) return;
     const task = getFormData();
     if (isEditing) {
-      console.log(task);
       updateTodo(task);
       setIsEditing(false);
     } else {
-      console.log(task);
       addTodo(task);
     }
     clearForm();
@@ -110,7 +122,7 @@ function TodoForm() {
       priorityLevel: setLevel(selectedPriority),
       complexity: selectedcomplexity,
       complexityLevel: setLevel(selectedcomplexity),
-      date: selectedDate,
+      date: formatDate(selectedDate),
       tags: tags,
       id: taskId,
       isCompleted: isCompleted,
@@ -124,9 +136,6 @@ function TodoForm() {
 
   const clearForm = () => {
     setName("");
-    setSelectedComplexity("");
-    setSelectedPriority("");
-    setSelectedDate("");
     setTags("");
   };
 
@@ -203,7 +212,7 @@ function TodoForm() {
             selected={selectedDate}
             onChange={(e) => setSelectedDate(e)}
             dateFormat="dd/MM/yyyy"
-            placeholderText="dd.mm.yyyy"
+            placeholderText={getTodo(id)?.date || "dd.mm.yyyy"}
           />
         </Col>
         <Col $width="50%">
@@ -258,7 +267,7 @@ function TodoForm() {
           $width="90%"
         />
         <RoundButton type="button" onClickCapture={() => addSubtask(subTask)}>
-          <i className="fa-solid fa-check"></i>
+          <i className="fa-solid fa-plus"></i>
         </RoundButton>
       </RowContainer>
 

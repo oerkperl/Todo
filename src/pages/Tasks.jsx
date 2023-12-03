@@ -68,7 +68,7 @@ const Todos = () => {
       {!noTask && (
         <div>
           <div>
-            <RowContainer>
+            <Row>
               <StyledInput
                 type="text"
                 placeholder="Search..."
@@ -76,8 +76,9 @@ const Todos = () => {
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
-            </RowContainer>
-            <Row
+            </Row>
+
+            <RowContainer
               style={{
                 justifyContent: "space-between",
                 marginTop: "0.5rem",
@@ -88,7 +89,7 @@ const Todos = () => {
                 <Dropdown
                   value={sortCondition}
                   onChange={(e) => setSortCondition(e.target.value)}
-                  $width="90%"
+                  $width="100%"
                 >
                   {conditions.map((condition) => (
                     <option key={condition} value={condition}>
@@ -103,7 +104,7 @@ const Todos = () => {
                 <Dropdown
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
-                  $width="90%"
+                  $width="100%"
                 >
                   {orders.map((order) => (
                     <option key={order} value={order}>
@@ -127,7 +128,7 @@ const Todos = () => {
                   ))}
                 </Dropdown>
               </Col>
-            </Row>
+            </RowContainer>
           </div>
           {sortedTodos
             .filter((todo) => todo[filterBy].includes(searchValue))

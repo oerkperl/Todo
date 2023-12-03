@@ -96,7 +96,7 @@ function Task() {
           $width="90%"
         />
         <RoundButton type="button" onClickCapture={() => addSubtask(subTask)}>
-          <i className="fa-solid fa-check"></i>
+          <i className="fa-solid fa-plus"></i>
         </RoundButton>
       </RowContainer>
       <BlueButton $backgroundColor="lightpink" onClick={handleRemove}>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
 import {
@@ -14,6 +14,7 @@ function Todo({ todo }) {
   const [taskName, setTaskName] = useState(todo.name);
   const [isEditingName, setIsEditingName] = useState(false);
   const [dueDate, setDueDate] = useState("");
+  const [daysDifference, setDaysDifference] = useState(null);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,12 +22,37 @@ function Todo({ todo }) {
     setIsEditingName((prev) => !prev);
   };
 
+  useEffect(() => {
+    const displaydate =
+      todo.date === undefined || todo.date === null
+        ? "Not specified"
+        : todo.date + ", " + todo.hour + ":" + todo.minute + " " + todo.period;
+    setDueDate(displaydate);
+    setDaysDifference(calcDaysDifference(todo?.date));
+  }, []);
+
+  function calcDaysDifference(inputDate) {
+    const [day, month, year] = inputDate.split("/").map(Number);
+    const inputDateObj = new Date(year, month - 1, day);
+    const currentDate = new Date();
+    const timeDifference = inputDateObj - currentDate;
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    //console.log(`The input date is ${daysDifference} days away from today.`);
+
+    return daysDifference;
+  }
+
   return (
-    <div className="todo">
+    <div
+      className="todo"
+      style={{
+        textDecoration: todo.isCompleted ? "line-through" : "",
+      }}
+    >
       <TodoCard style={{ backgroundColor: todo.isCompleted ? "#d3eddb" : "" }}>
         <div>
           <CardHeader $top="0">
-            <LevelIcon $priority={todo.priorityLevel} />
+            <LevelIcon $priority={daysDifference} />
             {!isEditingName && (
               <h4
                 onClick={() => {
@@ -69,7 +95,7 @@ function Todo({ todo }) {
           <CardRow>
             <i className="fa-regular fa-calendar"></i>
             <label>Due Date:</label>
-            {todo.hour + ":" + todo.minute + " " + todo.period}
+            {dueDate}
           </CardRow>
           <CardRow>
             <i className="fa-solid fa-arrow-up-long"></i>
@@ -84,7 +110,7 @@ function Todo({ todo }) {
           <CardRow>
             <i className="fa-solid fa-tags"></i>
             <label>Tags:</label>
-            {todo.tags}
+            {todo.tags === "" ? "None" : todo.tags}
           </CardRow>
         </div>
       </TodoCard>

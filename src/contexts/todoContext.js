@@ -5,10 +5,14 @@ export const TodoContext = createContext();
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
 
+  const saveChanges = (arr) => {
+    localStorage.setItem("todos", JSON.stringify(arr));
+    setTodos(arr);
+  };
+
   const addTodo = (task) => {
     const newTodos = [...todos, task];
-    localStorage.setItem("todos", JSON.stringify(newTodos));
-    setTodos(newTodos);
+    saveChanges(newTodos);
   };
 
   const updateTodo = (task) => {
@@ -18,30 +22,26 @@ export const TodoProvider = ({ children }) => {
       }
       return todo;
     });
-    localStorage.setItem("todos", JSON.stringify(editedTodos));
-    setTodos(editedTodos);
+    saveChanges(editedTodos);
   };
 
   const UpdateName = (todo, newName) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, name: newName } : t
     );
-    localStorage.setItem("todos", JSON.stringify(filtered));
-    setTodos(filtered);
+    saveChanges(filtered);
   };
 
   const completeTodo = (todo) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
     );
-    localStorage.setItem("todos", JSON.stringify(filtered));
-    setTodos(filtered);
+    saveChanges(filtered);
   };
 
   const removeTodo = (todo) => {
     const filtered = todos.filter((t) => t.id !== todo.id);
-    localStorage.setItem("todos", JSON.stringify(filtered));
-    setTodos(filtered);
+    saveChanges(filtered);
   };
 
   const getTodo = (id) => {

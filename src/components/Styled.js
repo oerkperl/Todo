@@ -197,15 +197,14 @@ export const CardRow = styled(Card)`
 `;
 export const LevelIcon = styled.span`
   background-color: ${(props) => {
-    switch (props.$priority) {
-      case "High":
+    if (props.$priority >= 1 && props.$priority < 4) {
+      return "orange";
+    } else {
+      if (props.$priority < 1) {
         return "red";
-      case "Moderate":
-        return "orange";
-      case "Low":
+      } else {
         return "#3498db";
-      default:
-        return "transparent";
+      }
     }
   }};
   width: 15px;
