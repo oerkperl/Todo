@@ -32,6 +32,9 @@ function Todo({ todo }) {
   }, []);
 
   function calcDaysDifference(inputDate) {
+    if (inputDate === null || inputDate === undefined) {
+      return;
+    }
     const [day, month, year] = inputDate.split("/").map(Number);
     const inputDateObj = new Date(year, month - 1, day);
     const currentDate = new Date();

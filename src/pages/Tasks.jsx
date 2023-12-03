@@ -23,12 +23,11 @@ const Todos = () => {
   const conditions = ["priority", "complexity"];
   const orders = ["Default", "Ascending", "Descending"];
   const filters = ["name", "tags"];
-
   const [sortedTodos, setSortedTodos] = useState([...todos]);
 
   const sort = (arr, sortBy) => {
     if (sortOrder === "Default") {
-      setSortedTodos([...todos]);
+      return arr;
     } else {
       if (sortBy === sortCondition && sortOrder === "Ascending") {
         arr.sort((a, b) => a[sortBy] - b[sortBy]);
@@ -36,25 +35,22 @@ const Todos = () => {
         arr.sort((a, b) => b[sortBy] - a[sortBy]);
       }
     }
-    setSortedTodos(arr);
+
     return arr;
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedTodos = await getTodos();
-        if (fetchedTodos) {
-          const sorted = sort([...fetchedTodos], sortCondition);
-          setSortedTodos(sorted);
-        }
+        const sorted = sort([...todos], sortCondition);
+        setSortedTodos(sorted);
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
     };
 
     fetchData();
-  }, [getTodos, sortOrder, sortCondition]);
+  }, [todos, sortOrder, sortCondition]);
 
   return (
     <>

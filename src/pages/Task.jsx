@@ -42,8 +42,6 @@ function Task() {
     setSubTask("");
   };
 
-  if (!todo) return <div>No todo found</div>;
-
   return (
     <div>
       <Row style={{ alignItems: "center" }}>
