@@ -19,6 +19,7 @@ import {
   Subtask,
   StyledLink,
 } from "./Styled";
+import { Header } from "./Header";
 
 function TodoForm() {
   const [name, setName] = useState("");
@@ -153,22 +154,11 @@ function TodoForm() {
   const deleteSubtask = (id) => {
     setSubTasks((prev) => prev.filter((task) => task.id !== id));
   };
+  const title = isEditing ? "Edit Task" : "Add New Task";
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Row style={{ alignItems: "center" }}>
-        <Col $width="33%">
-          <StyledLink to={"/"}>
-            <RoundButton>
-              <i className="fa-solid fa-arrow-left-long"></i>
-            </RoundButton>
-          </StyledLink>
-        </Col>
-        <Col $width="33%">
-          <h3>{isEditing ? "Edit Task" : "Add New Task"}</h3>
-        </Col>
-      </Row>
-
+      <Header title={title} />
       <h4>Task Name</h4>
       <Row>
         <StyledInput

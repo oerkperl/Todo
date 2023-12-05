@@ -1,5 +1,5 @@
 import Todo from "../components/Todo";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { TodoContext } from "../contexts/todoContext";
 import { Link } from "react-router-dom";
@@ -14,43 +14,20 @@ import {
 } from "../components/Styled";
 
 const Todos = () => {
-  const { todos, getTodos } = useContext(TodoContext);
-  const noTask = todos.length === 0;
-  const [sortOrder, setSortOrder] = useState("Default");
-  const [sortCondition, setSortCondition] = useState("priority");
+  const {
+    sortedTodos,
+    setSortOrder,
+    setSortCondition,
+    sortOrder,
+    sortCondition,
+  } = useContext(TodoContext);
+
+  const noTask = sortedTodos.length === 0;
   const [searchValue, setSearchValue] = useState("");
   const [filterBy, setFilterBy] = useState("name");
   const conditions = ["priority", "complexity"];
   const orders = ["Default", "Ascending", "Descending"];
   const filters = ["name", "tags"];
-  const [sortedTodos, setSortedTodos] = useState([...todos]);
-
-  const sort = (arr, sortBy) => {
-    if (sortOrder === "Default") {
-      return arr;
-    } else {
-      if (sortBy === sortCondition && sortOrder === "Ascending") {
-        arr.sort((a, b) => a[sortBy] - b[sortBy]);
-      } else {
-        arr.sort((a, b) => b[sortBy] - a[sortBy]);
-      }
-    }
-
-    return arr;
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const sorted = sort([...todos], sortCondition);
-        setSortedTodos(sorted);
-      } catch (error) {
-        console.error("Error fetching todo:", error);
-      }
-    };
-
-    fetchData();
-  }, [todos, sortOrder, sortCondition]);
 
   return (
     <>

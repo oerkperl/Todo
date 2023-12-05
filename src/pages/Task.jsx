@@ -4,6 +4,7 @@ import { uid } from "uid";
 import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
+
 import {
   Subtask,
   BlueButton,
@@ -14,6 +15,7 @@ import {
   RowContainer,
   StyledInput,
 } from "../components/Styled";
+import { Header } from "../components/Header";
 
 function Task() {
   const { id } = useParams();
@@ -44,18 +46,7 @@ function Task() {
 
   return (
     <div>
-      <Row style={{ alignItems: "center" }}>
-        <Col $width="33%">
-          <StyledLink to={"/"}>
-            <RoundButton>
-              <i className="fa-solid fa-arrow-left-long"></i>
-            </RoundButton>
-          </StyledLink>
-        </Col>
-        <Col $width="33%">
-          <h3>Task Detail</h3>
-        </Col>
-      </Row>
+      <Header title={"Task Detail"} />
 
       <Todo todo={todo} />
 

@@ -3,45 +3,82 @@ import { createContext, useState, useEffect } from "react";
 export const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-  const [todos, setTodos] = useState([]);
+  function useLocalState(key, initialValue) {
+    const storedValue = window.localStorage.getItem(key);
+    const item = storedValue ? JSON.parse(storedValue) : initialValue;
+    const [state, setState] = useState(item);
 
-  const saveChanges = (arr) => {
-    localStorage.setItem("todos", JSON.stringify(arr));
-    setTodos(arr);
+    const updateState = (value) => {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      setState(value);
+    };
+
+    return [state, updateState];
+  }
+
+  const [todos, setTodos] = useLocalState("todos", []);
+  const [sortOrder, setSortOrder] = useState("Default");
+  const [sortCondition, setSortCondition] = useState("priority");
+  const [sortedTodos, setSortedTodos] = useState([...todos]);
+
+  const sort = (arr, sortBy, orderBy) => {
+    if (orderBy === "Default") {
+      return arr;
+    } else {
+      if (sortBy === sortCondition && orderBy === "Ascending") {
+        arr.sort((a, b) => a[sortBy] - b[sortBy]);
+      } else {
+        arr.sort((a, b) => b[sortBy] - a[sortBy]);
+      }
+    }
+
+    return arr;
   };
 
+  useEffect(() => {
+    const fetchData = () => {
+      try {
+        const sorted = sort([...todos], sortCondition, sortOrder);
+        setSortedTodos(sorted);
+      } catch (error) {
+        console.error("Error fetching todo:", error);
+      }
+    };
+
+    fetchData();
+  }, [todos, sortOrder, sortCondition]);
+
   const addTodo = (task) => {
-    const newTodos = [...todos, task];
-    saveChanges(newTodos);
+    setTodos([...todos, task]);
   };
 
   const updateTodo = (task) => {
     const editedTodos = todos.map((todo) => {
       if (todo.id === task.id) {
-        todo = task;
+        return task;
       }
       return todo;
     });
-    saveChanges(editedTodos);
+    setTodos(editedTodos);
   };
 
   const UpdateName = (todo, newName) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, name: newName } : t
     );
-    saveChanges(filtered);
+    setTodos(filtered);
   };
 
   const completeTodo = (todo) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
     );
-    saveChanges(filtered);
+    setTodos(filtered);
   };
 
   const removeTodo = (todo) => {
     const filtered = todos.filter((t) => t.id !== todo.id);
-    saveChanges(filtered);
+    setTodos(filtered);
   };
 
   const getTodo = (id) => {
@@ -49,7 +86,7 @@ export const TodoProvider = ({ children }) => {
   };
 
   const completeSubTask = (todo, id) => {
-    todo.subTasks.map((subTask) => {
+    todo.subTasks.forEach((subTask) => {
       if (subTask.id === id) {
         subTask.isSubTaskCompleted = !subTask.isSubTaskCompleted;
       }
@@ -57,22 +94,9 @@ export const TodoProvider = ({ children }) => {
     updateTodo(todo);
   };
 
-  const getTodos = () => {
-    return [...todos];
-  };
-
-  useEffect(() => {
-    const todosString = localStorage.getItem("todos");
-    if (todosString) {
-      const todosArray = JSON.parse(todosString);
-      setTodos(todosArray);
-    }
-  }, []);
-
   return (
     <TodoContext.Provider
       value={{
-        todos,
         addTodo,
         completeTodo,
         removeTodo,
@@ -80,7 +104,11 @@ export const TodoProvider = ({ children }) => {
         updateTodo,
         completeSubTask,
         UpdateName,
-        getTodos,
+        setSortCondition,
+        setSortOrder,
+        sortedTodos,
+        sortOrder,
+        sortCondition,
       }}
     >
       {children}
