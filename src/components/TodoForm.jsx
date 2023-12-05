@@ -1,7 +1,7 @@
+import "react-datepicker/dist/react-datepicker.css";
 import { uid } from "uid";
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
-import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {

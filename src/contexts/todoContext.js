@@ -35,18 +35,10 @@ export const TodoProvider = ({ children }) => {
     return arr;
   };
 
-  useEffect(() => {
-    const fetchData = () => {
-      try {
-        const sorted = sort([...todos], sortCondition, sortOrder);
-        setSortedTodos(sorted);
-      } catch (error) {
-        console.error("Error fetching todo:", error);
-      }
-    };
-
-    fetchData();
-  }, [todos, sortOrder, sortCondition]);
+  const getTodos = () => {
+    const sorted = sort([...todos], sortCondition, sortOrder);
+    return sorted;
+  };
 
   const addTodo = (task) => {
     setTodos([...todos, task]);
@@ -106,9 +98,10 @@ export const TodoProvider = ({ children }) => {
         UpdateName,
         setSortCondition,
         setSortOrder,
-        sortedTodos,
+        getTodos,
         sortOrder,
         sortCondition,
+        todos,
       }}
     >
       {children}
