@@ -8,10 +8,7 @@ import { TodoContext } from "../contexts/todoContext";
 import {
   Subtask,
   BlueButton,
-  Row,
   RoundButton,
-  Col,
-  StyledLink,
   RowContainer,
   StyledInput,
 } from "../components/Styled";

@@ -17,7 +17,6 @@ import {
   RowContainer,
   Dropdown,
   Subtask,
-  StyledLink,
 } from "./Styled";
 import { Header } from "./Header";
 

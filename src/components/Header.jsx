@@ -1,13 +1,4 @@
-import {
-  Subtask,
-  BlueButton,
-  Row,
-  RoundButton,
-  Col,
-  StyledLink,
-  RowContainer,
-  StyledInput,
-} from "../components/Styled";
+import { Row, RoundButton, Col, StyledLink } from "../components/Styled";
 
 export const Header = ({ title }) => {
   return (
