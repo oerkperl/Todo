@@ -1,17 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import { HeaderWrapper, RoundButton } from "../components/Styled";
+import { HeaderWrapper, RoundButton, StyledLink } from "../components/Styled";
 
 export const Header = ({ title }) => {
-  const navigate = useNavigate();
   return (
     <HeaderWrapper>
-      <RoundButton
-        onClick={() => {
-          navigate(-1) || navigate("/");
-        }}
-      >
-        <i className="fa-solid fa-arrow-left-long"></i>
-      </RoundButton>
+      <StyledLink to={"/"}>
+        <RoundButton>
+          <i className="fa-solid fa-arrow-left-long"></i>
+        </RoundButton>
+      </StyledLink>
       <span>
         <h3>{title}</h3>
       </span>
