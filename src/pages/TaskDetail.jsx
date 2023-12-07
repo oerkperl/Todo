@@ -34,12 +34,11 @@ function TaskDetail() {
 
   const handleRemove = () => {
     removeTodo(todo);
-    //navigate("/");
     handleShowNotification();
     setTimeout(() => {
       setShowNotification(false);
       navigate("/");
-    }, 3000);
+    }, 2000);
   };
 
   const addSubtask = (task) => {

@@ -168,7 +168,6 @@ function TodoForm() {
   const deleteSubtask = (id) => {
     setSubTasks((prev) => prev.filter((task) => task.id !== id));
   };
-  const title = isEditing ? "Edit Task" : "Add New Task";
 
   return (
     <StyledForm onSubmit={handleSubmit}>

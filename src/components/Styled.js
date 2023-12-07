@@ -3,7 +3,6 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
 
 export const GlobalStyle = createGlobalStyle`
-  
   * { 
     margin: 0;
     padding: 0;
@@ -14,21 +13,23 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 `;
+
 export const Wrapper = styled.div`
   width: 450px;
   margin: 1rem auto;
   min-height: 80px;
-
   background-color: rgba(135, 206, 250, 0.06);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 1rem;
   box-sizing: border-box;
 `;
+
 export const StyledForm = styled.form`
   h4 {
     margin: 0.5rem 0;
   }
 `;
+
 export const Row = styled.div`
   display: flex;
 `;
@@ -39,13 +40,16 @@ export const Col = styled.div`
   width: ${(props) => props.$width};
   float: left;
 `;
+
 export const Center = styled.div`
   text-align: center;
 `;
+
 const Button = styled.button`
   border-radius: 500px;
   border: none;
 `;
+
 export const BlueButton = styled(Button)`
   background-color: ${(props) => props.$backgroundColor};
   color: ${(props) => props.$color};
@@ -53,11 +57,13 @@ export const BlueButton = styled(Button)`
   width: 100%;
   margin: 0.5rem 0 0 0;
 `;
+
 export const ButtonContainer = styled.div`
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
 `;
+
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -66,6 +72,7 @@ export const StyledLink = styled(Link)`
     text-decoration: none;
   }
 `;
+
 export const RoundButton = styled.button`
   width: 35px;
   height: 35px;
@@ -81,9 +88,11 @@ export const RoundButton = styled.button`
     color: #fff;
   }
 `;
+
 export const Lable = styled.label`
   font-size: 20px;
 `;
+
 const Input = styled.input`
   width: ${(props) => props.$width};
 `;
@@ -102,10 +111,12 @@ export const StyledDatePicker = styled(DatePicker)`
   border: none;
   width: 50%;
 `;
+
 export const RowContainer = styled.div`
   display: flex;
   gap: 10px;
 `;
+
 export const Subtask = styled.li`
   display: flex;
   gap: 10px;
@@ -129,6 +140,7 @@ export const Subtask = styled.li`
     }
   }
 `;
+
 export const Dropdown = styled.select`
   padding: 0.5rem;
   border-radius: 500px;
@@ -146,6 +158,7 @@ export const TodoCard = styled.div`
   border: none;
   position: relative;
 `;
+
 const Card = styled.div`
   display: flex;
   gap: 10px;
@@ -237,7 +250,8 @@ export const ModalContainer = styled.div`
   transform: translateX(-50%);
   background-color: #fff;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 4px;
   z-index: 999;
   width: 400px;

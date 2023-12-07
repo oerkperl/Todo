@@ -8,7 +8,7 @@ const NotificationModal = ({ message, onClose }) => {
     const timeoutId = setTimeout(() => {
       setIsVisible(false);
       onClose();
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timeoutId);
   }, [onClose]);
