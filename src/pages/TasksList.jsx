@@ -13,7 +13,7 @@ import {
   Dropdown,
 } from "../components/Styled";
 
-const Todos = () => {
+const TasksList = () => {
   const {
     todos,
     getTodos,
@@ -136,4 +136,4 @@ const Todos = () => {
   );
 };
 
-export default Todos;
+export default TasksList;

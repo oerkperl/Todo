@@ -1,5 +1,4 @@
 import Todo from "../components/Todo";
-import TodoForm from "../components/TodoForm";
 import { useState } from "react";
 import { uid } from "uid";
 import { useContext } from "react";
@@ -15,7 +14,7 @@ import {
 } from "../components/Styled";
 import { Header } from "../components/Header";
 
-function Task() {
+function TaskDetail() {
   const { id } = useParams();
   const { getTodo, removeTodo, completeSubTask, updateTodo } =
     useContext(TodoContext);
@@ -93,4 +92,4 @@ function Task() {
   );
 }
 
-export default Task;
+export default TaskDetail;

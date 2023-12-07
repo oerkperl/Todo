@@ -3,7 +3,7 @@ import NotificationModal from "./NotificationModal ";
 import { uid } from "uid";
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Header } from "../components/Header";
 
 import {
@@ -41,7 +41,6 @@ function TodoForm() {
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minutes = ["00", "10", "20", "30", "40", "50", "60"];
   const periods = ["AM", "PM"];
-  const navigate = useNavigate();
 
   const [showNotification, setShowNotification] = useState(false);
 
@@ -122,7 +121,6 @@ function TodoForm() {
       addTodo(task);
     }
     clearForm();
-    //navigate(-1) || navigate("/");
     handleShowNotification();
   };
 
