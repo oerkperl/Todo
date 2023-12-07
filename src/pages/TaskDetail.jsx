@@ -60,7 +60,7 @@ function TaskDetail() {
         <div>
           {showNotification && (
             <NotificationModal
-              message={"Task Deleted ok. Redirecting..."}
+              message={"Task Deleted ok..."}
               onClose={handleCloseNotification}
             />
           )}

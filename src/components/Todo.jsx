@@ -16,6 +16,7 @@ function Todo({ todo }) {
   const [dueDate, setDueDate] = useState("");
   const [daysDifference, setDaysDifference] = useState(null);
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     UpdateName(todo, taskName);
