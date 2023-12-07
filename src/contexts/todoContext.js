@@ -19,7 +19,6 @@ export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useLocalState("todos", []);
   const [sortOrder, setSortOrder] = useState("Default");
   const [sortCondition, setSortCondition] = useState("priority");
-  const [sortedTodos, setSortedTodos] = useState([...todos]);
 
   const sort = (arr, sortBy, orderBy) => {
     if (orderBy === "Default") {

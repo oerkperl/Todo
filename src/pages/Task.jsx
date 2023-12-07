@@ -1,4 +1,5 @@
 import Todo from "../components/Todo";
+import TodoForm from "../components/TodoForm";
 import { useState } from "react";
 import { uid } from "uid";
 import { useContext } from "react";
@@ -43,7 +44,7 @@ function Task() {
 
   return (
     <div>
-      <Header title={"Task Detail"} />
+      <Header title={todo?.name} />
 
       <Todo todo={todo} />
 

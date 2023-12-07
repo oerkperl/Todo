@@ -49,7 +49,7 @@ const Todos = () => {
       {noTask && (
         <div>
           <Center>
-            <div>No tasks In your Todo.Please Add...</div>
+            <div>No task in your Todo.Please Add...</div>
           </Center>
         </div>
       )}

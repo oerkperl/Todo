@@ -1,19 +1,20 @@
-import { Row, RoundButton, Col, StyledLink } from "../components/Styled";
+import { useNavigate } from "react-router-dom";
+import { HeaderWrapper, RoundButton } from "../components/Styled";
 
 export const Header = ({ title }) => {
+  const navigate = useNavigate();
   return (
-    <Row style={{ alignItems: "center" }}>
-      <Col $width="33.3%">
-        <StyledLink to={"/"}>
-          <RoundButton>
-            <i className="fa-solid fa-arrow-left-long"></i>
-          </RoundButton>
-        </StyledLink>
-      </Col>
-      <Col>
-        {/* <h3>{isEditing ? "Edit Task" : "Add New Task"}</h3> */}
+    <HeaderWrapper>
+      <RoundButton
+        onClick={() => {
+          navigate(-1) || navigate("/");
+        }}
+      >
+        <i className="fa-solid fa-arrow-left-long"></i>
+      </RoundButton>
+      <span>
         <h3>{title}</h3>
-      </Col>
-    </Row>
+      </span>
+    </HeaderWrapper>
   );
 };

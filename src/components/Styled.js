@@ -90,14 +90,14 @@ const Input = styled.input`
 export const StyledInput = styled(Input)`
   padding: 0.5rem;
   border-radius: 500px;
-  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.13), 0 1px 4px 0 rgba(0, 0, 0, 0.11);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
 `;
 
 export const StyledDatePicker = styled(DatePicker)`
   padding: 0.5rem 1rem;
   border-radius: 500px;
-  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.13), 0 1px 4px 0 rgba(0, 0, 0, 0.11);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   width: 50%;
 `;
@@ -109,7 +109,7 @@ export const Subtask = styled.li`
   display: flex;
   gap: 10px;
   margin-top: 0.5rem;
-  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.13), 0 1px 4px 0 rgba(0, 0, 0, 0.11);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   padding: 0.5rem;
   border-radius: 500px;
@@ -131,7 +131,7 @@ export const Subtask = styled.li`
 export const Dropdown = styled.select`
   padding: 0.5rem;
   border-radius: 500px;
-  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.13), 0 1px 4px 0 rgba(0, 0, 0, 0.11);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   width: ${(props) => props.$width};
 `;
@@ -141,7 +141,7 @@ export const TodoCard = styled.div`
   border-radius: 10px;
   padding: 0.5rem;
   margin-top: 0.5rem;
-  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.13), 0 1px 4px 0 rgba(0, 0, 0, 0.11);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   position: relative;
 `;
@@ -211,4 +211,37 @@ export const LevelIcon = styled.span`
   height: 15px;
   border-radius: 50%;
   display: inline-block;
+`;
+
+export const HeaderWrapper = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height:35px;
+
+  button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate
+  }
+  
+`;
+
+export const ModalContainer = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 999;
+  width: 400px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
