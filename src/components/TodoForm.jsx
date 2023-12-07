@@ -22,6 +22,19 @@ import {
 } from "./Styled";
 
 function TodoForm() {
+  const {
+    updateTodo,
+    getTodo,
+    addTodo,
+    handleCloseNotification,
+    showNotification,
+    handleShowNotification,
+    setShowNotification,
+  } = useContext(TodoContext);
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [tags, setTags] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -31,28 +44,14 @@ function TodoForm() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [subTasks, setSubTasks] = useState([]);
   const [subTask, setSubTask] = useState("");
-  const { updateTodo, getTodo, addTodo } = useContext(TodoContext);
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
   const [selectedHour, setSelectedHour] = useState(1);
   const [selectedMinute, setSelectedMinute] = useState("00");
-
-  const { id } = useParams();
-  const navigate = useNavigate();
 
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minutes = ["00", "10", "20", "30", "40", "50", "60"];
   const periods = ["AM", "PM"];
-
-  const [showNotification, setShowNotification] = useState(false);
-
-  const handleShowNotification = () => {
-    setShowNotification(true);
-  };
-
-  const handleCloseNotification = () => {
-    setShowNotification(false);
-  };
 
   const setLevel = (number) => {
     let level;
@@ -125,8 +124,9 @@ function TodoForm() {
     clearForm();
     handleShowNotification();
     setTimeout(() => {
+      setShowNotification(false);
       navigate(-1) || navigate("/");
-    }, 3000);
+    }, 2000);
   };
 
   const getFormData = () => {

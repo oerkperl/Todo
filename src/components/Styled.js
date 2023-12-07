@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 export const Wrapper = styled.div`
   width: 450px;
   margin: 1rem auto;
+  min-height: 80px;
 
   background-color: rgba(135, 206, 250, 0.06);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

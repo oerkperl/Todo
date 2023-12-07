@@ -40,8 +40,6 @@ function Todo({ todo }) {
     const currentDate = new Date();
     const timeDifference = inputDateObj - currentDate;
     const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    //console.log(`The input date is ${daysDifference} days away from today.`);
-
     return daysDifference;
   }
 

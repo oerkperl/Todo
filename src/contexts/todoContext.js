@@ -20,6 +20,16 @@ export const TodoProvider = ({ children }) => {
   const [sortOrder, setSortOrder] = useState("Default");
   const [sortCondition, setSortCondition] = useState("priority");
 
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleShowNotification = () => {
+    setShowNotification(true);
+  };
+
+  const handleCloseNotification = () => {
+    setShowNotification(false);
+  };
+
   const sort = (arr, sortBy, orderBy) => {
     if (orderBy === "Default") {
       return arr;
@@ -98,6 +108,10 @@ export const TodoProvider = ({ children }) => {
         setSortCondition,
         setSortOrder,
         getTodos,
+        handleShowNotification,
+        handleCloseNotification,
+        setShowNotification,
+        showNotification,
         sortOrder,
         sortCondition,
         todos,
