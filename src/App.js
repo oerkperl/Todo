@@ -1,7 +1,7 @@
 import React from "react";
 import TasksList from "./pages/TasksList";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TaskDetail from "./pages/TaskDetail";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { TodoProvider } from "./contexts/todoContext";
 import { AddEditTask } from "./pages/AddEditTask";
 import { GlobalStyle, Wrapper } from "./components/Styled";
