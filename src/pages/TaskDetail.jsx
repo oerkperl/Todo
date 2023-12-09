@@ -68,7 +68,7 @@ function TaskDetail() {
       )}
       {todo && (
         <div>
-          <Header title={todo?.name} />
+          <Header title={"Task Detail"} />
 
           <Todo todo={todo} />
 
