@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import NotificationModal from "../components/NotificationModal ";
 
 export const TodoContext = createContext();
 
@@ -19,8 +20,18 @@ export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useLocalState("todos", []);
   const [sortOrder, setSortOrder] = useState("Default");
   const [sortCondition, setSortCondition] = useState("priority");
-
   const [showNotification, setShowNotification] = useState(false);
+
+  function useNotification(notification) {
+    return (
+      showNotification && (
+        <NotificationModal
+          message={notification}
+          onClose={handleCloseNotification}
+        />
+      )
+    );
+  }
 
   const handleShowNotification = () => {
     setShowNotification(true);
@@ -111,6 +122,7 @@ export const TodoProvider = ({ children }) => {
         handleShowNotification,
         handleCloseNotification,
         setShowNotification,
+        useNotification,
         showNotification,
         sortOrder,
         sortCondition,

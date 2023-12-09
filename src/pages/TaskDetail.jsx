@@ -1,4 +1,3 @@
-import NotificationModal from "../components/NotificationModal ";
 import Todo from "../components/Todo";
 import { useState } from "react";
 import { uid } from "uid";
@@ -23,9 +22,8 @@ function TaskDetail() {
     completeSubTask,
     updateTodo,
     handleShowNotification,
-    handleCloseNotification,
-    showNotification,
     setShowNotification,
+    useNotification,
   } = useContext(TodoContext);
 
   const todo = getTodo(id);
@@ -53,20 +51,12 @@ function TaskDetail() {
     updateTodo(updatedTodo);
     setSubTask("");
   };
+  const notificationComponent = useNotification("Task Deleted...");
 
   return (
     <>
-      {!todo && (
-        <div>
-          {showNotification && (
-            <NotificationModal
-              message={"Task Deleted ok..."}
-              onClose={handleCloseNotification}
-            />
-          )}
-        </div>
-      )}
-      {todo && (
+      {/* {!todo && <div>{useNotification(notification)}</div>} */}
+      {todo ? (
         <div>
           <Header title={"Task Detail"} />
 
@@ -117,6 +107,8 @@ function TaskDetail() {
             <i className="fa-solid fa-trash-can"></i> Delete Task
           </BlueButton>
         </div>
+      ) : (
+        notificationComponent
       )}
     </>
   );

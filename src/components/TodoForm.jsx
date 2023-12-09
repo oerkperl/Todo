@@ -1,5 +1,4 @@
 import "react-datepicker/dist/react-datepicker.css";
-import NotificationModal from "./NotificationModal ";
 import { uid } from "uid";
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
@@ -26,10 +25,9 @@ function TodoForm() {
     updateTodo,
     getTodo,
     addTodo,
-    handleCloseNotification,
-    showNotification,
     handleShowNotification,
     setShowNotification,
+    useNotification,
   } = useContext(TodoContext);
 
   const { id } = useParams();
@@ -53,20 +51,6 @@ function TodoForm() {
   const minutes = ["00", "10", "20", "30", "40", "50", "60"];
   const periods = ["AM", "PM"];
 
-  const setLevel = (number) => {
-    let level;
-    if (number > 0 && number < 4) {
-      level = "Low";
-    } else if (number >= 4 && number < 7) {
-      level = "Moderate";
-    } else if (number >= 7) {
-      level = "High";
-    } else {
-      level = "Unknown";
-    }
-    return level;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
@@ -84,6 +68,20 @@ function TodoForm() {
 
     fetchData();
   }, [id, getTodo]);
+
+  const setLevel = (number) => {
+    let level;
+    if (number > 0 && number < 4) {
+      level = "Low";
+    } else if (number >= 4 && number < 7) {
+      level = "Moderate";
+    } else if (number >= 7) {
+      level = "High";
+    } else {
+      level = "Unknown";
+    }
+    return level;
+  };
 
   const initializeEdit = (todo) => {
     setName(todo.name);
@@ -169,16 +167,11 @@ function TodoForm() {
     setSubTasks((prev) => prev.filter((task) => task.id !== id));
   };
 
+  const notification = isEditing ? "Changes Saved" : "New task added";
+
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <div>
-        {showNotification && (
-          <NotificationModal
-            message={isEditing ? "Changes Saved" : "New task added"}
-            onClose={handleCloseNotification}
-          />
-        )}
-      </div>
+      <div>{useNotification(notification)}</div>
       <Header title={isEditing ? "Edit Task" : "Add Task"} />
       <h4>Task Name</h4>
       <Row>
