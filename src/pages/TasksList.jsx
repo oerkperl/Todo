@@ -13,6 +13,10 @@ import {
   Dropdown,
 } from "../components/Styled";
 
+const conditions = ["priority", "complexity"];
+const orders = ["Default", "Ascending", "Descending"];
+const filters = ["name", "tags"];
+
 const TasksList = () => {
   const {
     todos,
@@ -26,23 +30,21 @@ const TasksList = () => {
   const noTask = todos.length === 0;
   const [searchValue, setSearchValue] = useState("");
   const [filterBy, setFilterBy] = useState("name");
-  const conditions = ["priority", "complexity"];
-  const orders = ["Default", "Ascending", "Descending"];
-  const filters = ["name", "tags"];
-  const [sortedTodos, setSortedTodos] = useState([...todos]);
+  //const [sortedTodos, setSortedTodos] = useState([...todos]);
+  const myTodos = getTodos();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const sorted = await getTodos();
-        setSortedTodos(sorted);
-      } catch (error) {
-        console.error("Error fetching todo:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const sorted = await getTodos();
+  //       setSortedTodos(sorted);
+  //     } catch (error) {
+  //       console.error("Error fetching todo:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, [getTodos, sortOrder, sortCondition]);
+  //   fetchData();
+  // }, [getTodos, sortOrder, sortCondition]);
 
   return (
     <>
@@ -118,11 +120,10 @@ const TasksList = () => {
               </Col>
             </RowContainer>
           </div>
-          {sortedTodos
-            .filter((todo) => todo[filterBy].includes(searchValue))
-            .map((todo) => (
-              <Todo key={todo.id} todo={todo} />
-            ))}
+          {myTodos &&
+            myTodos
+              .filter((todo) => todo[filterBy].includes(searchValue))
+              .map((todo) => <Todo key={todo.id} todo={todo} />)}
         </div>
       )}
       <Center>

@@ -55,7 +55,6 @@ function TaskDetail() {
 
   return (
     <>
-      {/* {!todo && <div>{useNotification(notification)}</div>} */}
       {todo ? (
         <div>
           <Header title={"Task Detail"} />

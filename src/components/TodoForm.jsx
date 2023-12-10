@@ -52,11 +52,11 @@ function TodoForm() {
   const periods = ["AM", "PM"];
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       if (id) {
         setIsEditing(true);
         try {
-          const todo = await getTodo(id);
+          const todo = getTodo(id);
           if (todo) {
             initializeEdit(todo);
           }
@@ -297,7 +297,7 @@ function TodoForm() {
 
       <Center>
         <BlueButton type="submit" $backgroundColor="#3498db" $color="#fff">
-          Save Task{" "}
+          Save Task
         </BlueButton>
       </Center>
     </StyledForm>
