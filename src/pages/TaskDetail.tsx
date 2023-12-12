@@ -5,6 +5,7 @@ import { uid } from "uid";
 import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
+import { ITodo } from "../@types.todo";
 
 import {
   Subtask,
@@ -27,7 +28,7 @@ function TaskDetail() {
     useNotification,
   } = useContext(TodoContext);
 
-  const todo = getTodo(id);
+  const todo:ITodo = getTodo(id);
   const navigate = useNavigate();
   const [subTask, setSubTask] = useState("");
 
@@ -40,7 +41,7 @@ function TaskDetail() {
     }, 2000);
   };
 
-  const addSubtask = (task) => {
+  const addSubtask = (task:string) => {
     if (!task) return;
     const newSubTask = {
       name: task,
@@ -48,7 +49,7 @@ function TaskDetail() {
       isSubTaskCompleted: false,
     };
     const newSubTasks = [...todo.subTasks, newSubTask];
-    const updatedTodo:any= { ...todo, subTasks: newSubTasks };
+    const updatedTodo= { ...todo, subTasks: newSubTasks } as ITodo;
     updateTodo(updatedTodo);
     setSubTask("");
   };

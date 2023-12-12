@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
-export interface Todo {
+export type ITodo={
     id: number;
     name: string;
     isCompleted?: boolean;
     subTasks?: Array<{ id: number; name: string; isSubTaskCompleted: boolean }>;
-    priority: string;
+    priority: number;
     priorityLevel: number;
-    complexity: string;
+    complexity: number;
     complexityLevel: number;
     date: string;
     tags: string;
@@ -16,17 +16,17 @@ export interface Todo {
   
   }
   
-  export interface TodoContextValue {
-    addTodo: (task: Todo) => void;
-    completeTodo: (todo: Todo) => void;
-    removeTodo: (todo: Todo) => void;
-    getTodo: (id: number) => Todo | undefined;
-    updateTodo: (task: Todo) => void;
-    completeSubTask: (todo: Todo, id: number) => void;
-    UpdateName: (todo: Todo, newName: string) => void;
+  export type  TodoContextValue= {
+    addTodo: (task: ITodo) => void;
+    completeTodo: (todo: ITodo) => void;
+    removeTodo: (todo: ITodo) => void;
+    getTodo: (id: number) => ITodo | undefined;
+    updateTodo: (task: ITodo) => void;
+    completeSubTask: (todo: ITodo, id: number) => void;
+    UpdateName: (todo: ITodo, newName: string) => void;
     setSortCondition: Dispatch<SetStateAction<string>>;
     setSortOrder: Dispatch<SetStateAction<string>>;
-    getTodos: () => Todo[];
+    getTodos: () => ITodo[];
     handleShowNotification: () => void;
     handleCloseNotification: () => void;
     setShowNotification: Dispatch<SetStateAction<boolean>>;
@@ -34,6 +34,6 @@ export interface Todo {
     showNotification: boolean;
     sortOrder: string;
     sortCondition: string;
-    todos: Todo[];
+    todos: ITodo[];
     
   }

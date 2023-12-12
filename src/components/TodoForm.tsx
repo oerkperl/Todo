@@ -4,7 +4,7 @@ import { uid } from "uid";
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { ITodo } from "../@types.todo";
 
 import {
   Center,
@@ -40,7 +40,7 @@ const TodoForm: React.FC<TodoFormProps> = () => {
 
   const [name, setName] = useState<string>("");
   const [tags, setTags] = useState<string>("");
-  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [selectedPriority, setSelectedPriority] = useState<number>(1);
   const [selectedcomplexity, setSelectedComplexity] = useState<number>(1);
@@ -118,7 +118,7 @@ const TodoForm: React.FC<TodoFormProps> = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) return;
-    const task:any = getFormData();
+    const task:ITodo = getFormData();
     if (isEditing) {
       updateTodo(task);
       setIsEditing(false);
@@ -133,7 +133,7 @@ const TodoForm: React.FC<TodoFormProps> = () => {
     }, 2000);
   };
 
-  const getFormData = () => {
+  const getFormData = ():ITodo => {
     const taskId = isEditing ? id : uid();
     const data = {
       name: name,

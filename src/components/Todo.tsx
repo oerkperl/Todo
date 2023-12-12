@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TodoContext } from "../contexts/todoContext";
+import { ITodo } from "../@types.todo";
 import {
   TodoCard,
   CardRow,
@@ -10,7 +11,7 @@ import {
 } from "./Styled";
 
 interface TodoProps {
-  todo: any;
+  todo: ITodo;
 }
 
 const Todo: React.FC<TodoProps> = ({ todo }) => {

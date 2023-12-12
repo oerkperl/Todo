@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode } from 'react';
 import NotificationModal from '../components/NotificationModal ';
-import { TodoContextValue, Todo } from '../@types.todo';
+import { TodoContextValue, ITodo } from '../@types.todo';
 
 export const TodoContext = createContext<TodoContextValue | undefined>(undefined);
 
@@ -18,7 +18,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return [state, updateState] as const;
   }
 
-  const [todos, setTodos] = useLocalState<Todo[]>('todos', []);
+  const [todos, setTodos] = useLocalState<ITodo[]>('todos', []);
   const [sortOrder, setSortOrder] = useState<string>('Default');
   const [sortCondition, setSortCondition] = useState<string>('priority');
   const [showNotification, setShowNotification] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setShowNotification(false);
   };
 
-  const sort = (arr:Todo[], sortBy:string, orderBy:string) => {
+  const sort = (arr:ITodo[], sortBy:string, orderBy:string) => {
     if (orderBy === "Default") {
       return arr;
     } else {
@@ -60,11 +60,11 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return sorted;
   };
 
-  const addTodo = (task: Todo) => {
+  const addTodo = (task: ITodo) => {
     setTodos([...todos, task]);
   };
 
-  const updateTodo = (task: Todo) => {
+  const updateTodo = (task: ITodo) => {
     const editedTodos = todos.map((todo) => {
       if (todo.id === task.id) {
         return task;
@@ -74,21 +74,21 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setTodos(editedTodos);
   };
 
-  const UpdateName = (todo: Todo, newName: string) => {
+  const UpdateName = (todo: ITodo, newName: string) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, name: newName } : t
     );
     setTodos(filtered);
   };
 
-  const completeTodo = (todo: Todo) => {
+  const completeTodo = (todo: ITodo) => {
     const filtered = todos.map((t) =>
       t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
     );
     setTodos(filtered);
   };
 
-  const removeTodo = (todo: Todo) => {
+  const removeTodo = (todo: ITodo) => {
     const filtered = todos.filter((t) => t.id !== todo.id);
     setTodos(filtered);
   };
@@ -97,7 +97,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return todos.find((todo) => todo.id === id);
   };
 
-  const completeSubTask = (todo: Todo, id: number) => {
+  const completeSubTask = (todo: ITodo, id: number) => {
     todo.subTasks?.forEach((subTask) => {
       if (subTask.id === id) {
         subTask.isSubTaskCompleted = !subTask.isSubTaskCompleted;
