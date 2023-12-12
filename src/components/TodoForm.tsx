@@ -1,9 +1,10 @@
 import "react-datepicker/dist/react-datepicker.css";
+import Header from "./Header";
 import { uid } from "uid";
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/todoContext";
 import { useParams, useNavigate } from "react-router-dom";
-import { Header } from "../components/Header";
+
 
 import {
   Center,
@@ -20,7 +21,11 @@ import {
   Subtask,
 } from "./Styled";
 
-function TodoForm() {
+interface TodoFormProps {
+  
+}
+
+const TodoForm: React.FC<TodoFormProps> = () => {
   const {
     updateTodo,
     getTodo,
@@ -30,21 +35,21 @@ function TodoForm() {
     useNotification,
   } = useContext(TodoContext);
 
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id }:any = useParams();
+  const navigate: any = useNavigate();
 
-  const [name, setName] = useState("");
-  const [tags, setTags] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedPriority, setSelectedPriority] = useState(1);
-  const [selectedcomplexity, setSelectedComplexity] = useState(1);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [tags, setTags] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [selectedPriority, setSelectedPriority] = useState<number>(1);
+  const [selectedcomplexity, setSelectedComplexity] = useState<number>(1);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [subTasks, setSubTasks] = useState([]);
-  const [subTask, setSubTask] = useState("");
-  const [selectedPeriod, setSelectedPeriod] = useState("AM");
-  const [selectedHour, setSelectedHour] = useState(1);
-  const [selectedMinute, setSelectedMinute] = useState("00");
+  const [subTask, setSubTask] = useState<string>("");
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("AM");
+  const [selectedHour, setSelectedHour] = useState<number>(1);
+  const [selectedMinute, setSelectedMinute] = useState<string>("00");
 
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -109,10 +114,11 @@ function TodoForm() {
     }
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) return;
-    const task = getFormData();
+    const task:any = getFormData();
     if (isEditing) {
       updateTodo(task);
       setIsEditing(false);

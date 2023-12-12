@@ -1,5 +1,5 @@
 import Todo from "../components/Todo";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useContext } from "react";
 import { TodoContext } from "../contexts/todoContext";
 import { Link } from "react-router-dom";
@@ -27,24 +27,10 @@ const TasksList = () => {
     sortCondition,
   } = useContext(TodoContext);
 
-  const noTask = todos.length === 0;
-  const [searchValue, setSearchValue] = useState("");
-  const [filterBy, setFilterBy] = useState("name");
-  //const [sortedTodos, setSortedTodos] = useState([...todos]);
+  const noTask:boolean = todos.length === 0;
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [filterBy, setFilterBy] = useState<string>("name");
   const myTodos = getTodos();
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const sorted = await getTodos();
-  //       setSortedTodos(sorted);
-  //     } catch (error) {
-  //       console.error("Error fetching todo:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [getTodos, sortOrder, sortCondition]);
 
   return (
     <>

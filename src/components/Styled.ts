@@ -34,7 +34,7 @@ export const Row = styled.div`
   display: flex;
 `;
 
-export const Col = styled.div`
+export const Col = styled.div<{$width?:string}>`
   box-sizing: border-box;
   min-height: 20px;
   width: ${(props) => props.$width};
@@ -50,7 +50,7 @@ const Button = styled.button`
   border: none;
 `;
 
-export const BlueButton = styled(Button)`
+export const BlueButton = styled(Button)<{$backgroundColor?:string, $color?:string}>`
   background-color: ${(props) => props.$backgroundColor};
   color: ${(props) => props.$color};
   padding: 0.5rem;
@@ -73,7 +73,7 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-export const RoundButton = styled.button`
+export const RoundButton = styled.button<{ $isSelected?: boolean }>`
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -93,7 +93,7 @@ export const Lable = styled.label`
   font-size: 20px;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{$width?:string}>`
   width: ${(props) => props.$width};
 `;
 
@@ -141,7 +141,7 @@ export const Subtask = styled.li`
   }
 `;
 
-export const Dropdown = styled.select`
+export const Dropdown = styled.select<{$width?:string}>`
   padding: 0.5rem;
   border-radius: 500px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -164,7 +164,7 @@ const Card = styled.div`
   gap: 10px;
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<{$top?:string}>`
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -209,7 +209,7 @@ export const CardRow = styled(Card)`
     color: #555;
   }
 `;
-export const LevelIcon = styled.span`
+export const LevelIcon = styled.span<{$priority?:number}>`
   background-color: ${(props) => {
     if (props.$priority >= 1 && props.$priority < 4) {
       return "orange";

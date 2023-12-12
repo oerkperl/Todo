@@ -1,4 +1,5 @@
 import Todo from "../components/Todo";
+import  Header from "../components/Header";
 import { useState } from "react";
 import { uid } from "uid";
 import { useContext } from "react";
@@ -12,10 +13,10 @@ import {
   RowContainer,
   StyledInput,
 } from "../components/Styled";
-import { Header } from "../components/Header";
+
 
 function TaskDetail() {
-  const { id } = useParams();
+  const { id }:any = useParams();
   const {
     getTodo,
     removeTodo,
@@ -47,7 +48,7 @@ function TaskDetail() {
       isSubTaskCompleted: false,
     };
     const newSubTasks = [...todo.subTasks, newSubTask];
-    const updatedTodo = { ...todo, subTasks: newSubTasks };
+    const updatedTodo:any= { ...todo, subTasks: newSubTasks };
     updateTodo(updatedTodo);
     setSubTask("");
   };

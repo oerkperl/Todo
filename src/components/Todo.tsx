@@ -9,12 +9,16 @@ import {
   StyledInput,
 } from "./Styled";
 
-function Todo({ todo }) {
+interface TodoProps {
+  todo: any;
+}
+
+const Todo: React.FC<TodoProps> = ({ todo }) => {
   const { completeTodo, UpdateName } = useContext(TodoContext);
-  const [taskName, setTaskName] = useState(todo.name);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [dueDate, setDueDate] = useState("");
-  const [daysDifference, setDaysDifference] = useState(null);
+  const [taskName, setTaskName] = useState<string>(todo.name);
+  const [isEditingName, setIsEditingName] = useState<boolean>(false);
+  const [dueDate, setDueDate] = useState<string | null>("");
+  const [daysDifference, setDaysDifference] = useState<number | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -32,13 +36,13 @@ function Todo({ todo }) {
     setDaysDifference(calcDaysDifference(todo?.date));
   }, []);
 
-  function calcDaysDifference(inputDate) {
+  function calcDaysDifference(inputDate:string | null | undefined) {
     if (inputDate === null || inputDate === undefined) {
-      return;
+      return void 0;
     }
     const [day, month, year] = inputDate.split("/").map(Number);
-    const inputDateObj = new Date(year, month - 1, day);
-    const currentDate = new Date();
+    const inputDateObj:any = new Date(year, month - 1, day);
+    const currentDate:any = new Date();
     const timeDifference = inputDateObj - currentDate;
     const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     return daysDifference;
