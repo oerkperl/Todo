@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode } from 'react';
-import { TodoContextValue, Todo } from '../@types.todo';
 import NotificationModal from '../components/NotificationModal ';
+import { TodoContextValue, Todo } from '../@types.todo';
 
 export const TodoContext = createContext<TodoContextValue | undefined>(undefined);
 
